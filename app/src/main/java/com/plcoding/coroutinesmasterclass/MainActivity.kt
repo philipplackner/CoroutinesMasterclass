@@ -19,45 +19,61 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.system.measureTimeMillis
 
 class MainActivity : ComponentActivity() {
-
-    private val customLifecycleScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-//        GlobalScope.launch {
-//            val context = this@MainActivity
-//            delay(10000L)
-//            println("Context: $context")
+//        val outerJob = lifecycleScope.launch {
+//            val innerJob = launch {
+//                launch {
+//                    delay(3000L)
+//                }
+//                launch {
+//                    delay(2000L)
+//                }
+//                delay(1000L)
+//            }
+//            val timeMillis = measureTimeMillis {
+//                innerJob.join()
+//            }
+//            println("Inner job took $timeMillis ms.")
 //        }
 
-//        lifecycleScope.launch {
-//            val context = this@MainActivity
-//            delay(10000L)
-//            println("Context: $context")
-//        }
+        lifecycleScope.launch {
+            val profileJson = async {
+                getProfile()
+            }
+            val postsJson = async {
+                getPosts()
+            }
 
-        customLifecycleScope.launch {
-            val context = this@MainActivity
-            delay(10000L)
-            println("Context: $context")
+            val timeMillis = measureTimeMillis {
+                println("Profile: ${profileJson.await()}, posts: ${postsJson.await()}")
+            }
+            println("Fetching data took $timeMillis ms.")
         }
 
         setContent {
             CoroutinesMasterclassTheme {
-//                RotatingBoxScreen()
             }
         }
     }
+}
 
-    override fun onDestroy() {
-        super.onDestroy()
-        customLifecycleScope.cancel()
-    }
+suspend fun getProfile(): String {
+    delay(1000L)
+    return "{profile: {}}"
+}
+
+suspend fun getPosts(): String {
+    delay(1500L)
+    return "{posts: []}"
 }

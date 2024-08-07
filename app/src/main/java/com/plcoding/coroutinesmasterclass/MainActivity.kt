@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
+import com.plcoding.coroutinesmasterclass.sections.compose_coroutines.CounterScreen
+import com.plcoding.coroutinesmasterclass.sections.compose_coroutines.ProfileScreen
 import com.plcoding.coroutinesmasterclass.sections.coroutine_basics.fetchData
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
 import com.plcoding.coroutinesmasterclass.util.RotatingBoxScreen
@@ -30,50 +32,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-//        val outerJob = lifecycleScope.launch {
-//            val innerJob = launch {
-//                launch {
-//                    delay(3000L)
-//                }
-//                launch {
-//                    delay(2000L)
-//                }
-//                delay(1000L)
-//            }
-//            val timeMillis = measureTimeMillis {
-//                innerJob.join()
-//            }
-//            println("Inner job took $timeMillis ms.")
-//        }
-
-        lifecycleScope.launch {
-            val profileJson = async {
-                getProfile()
-            }
-            val postsJson = async {
-                getPosts()
-            }
-
-            val timeMillis = measureTimeMillis {
-                println("Profile: ${profileJson.await()}, posts: ${postsJson.await()}")
-            }
-            println("Fetching data took $timeMillis ms.")
-        }
-
         setContent {
             CoroutinesMasterclassTheme {
+                ProfileScreen()
             }
         }
     }
-}
-
-suspend fun getProfile(): String {
-    delay(1000L)
-    return "{profile: {}}"
-}
-
-suspend fun getPosts(): String {
-    delay(1500L)
-    return "{posts: []}"
 }

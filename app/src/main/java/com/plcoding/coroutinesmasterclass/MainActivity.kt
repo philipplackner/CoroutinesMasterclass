@@ -14,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.plcoding.coroutinesmasterclass.sections.coroutine_basics.fetchData
 import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.ioDefaultDispatcher
+import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.main_safety.BitmapCompressor
+import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.main_safety.PhotoPickerScreen
 import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.queryDatabase
 import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.unconfinedDispatcher
 import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.withContextDemo
@@ -30,11 +32,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        unconfinedDispatcher()
+        val compressor = BitmapCompressor(applicationContext)
 
         setContent {
             CoroutinesMasterclassTheme {
-
+                PhotoPickerScreen(compressor = compressor)
             }
         }
     }

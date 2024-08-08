@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.plcoding.coroutinesmasterclass.sections.coroutine_basics.fetchData
+import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.ioDefaultDispatcher
 import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.queryDatabase
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
 import com.plcoding.coroutinesmasterclass.util.RotatingBoxScreen
@@ -27,9 +28,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        GlobalScope.launch {
-            queryDatabase()
-        }
+        ioDefaultDispatcher()
 
         setContent {
             CoroutinesMasterclassTheme {

@@ -7,31 +7,24 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.cancelChildren
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
 
 suspend fun queryDatabase() {
     val job = coroutineContext[Job]
-    println("Job: $job")
-
-    val dispatcher = coroutineContext[CoroutineDispatcher]
-    println("Dispatcher: $dispatcher")
-
-    val handler = coroutineContext[CoroutineExceptionHandler]
-
     val name = coroutineContext[CoroutineName]
-    println("Name: $name")
+    val handler = coroutineContext[CoroutineExceptionHandler]
+    val dispatcher = coroutineContext[CoroutineDispatcher]
 
-    CoroutineScope(
-        Dispatchers.Main.minusKey(CoroutineDispatcher)
-    ).launch {
+    CoroutineScope(Dispatchers.Main + SupervisorJob()).launch {
         println("Dispatcher: ${coroutineContext[CoroutineDispatcher]}")
         println("Name: ${coroutineContext[CoroutineName]}")
     }
+//
+//    println("Job: $job")
+//    println("Name: $name")
+//    println("Handler: $handler")
+//    println("Dispatcher: $dispatcher")
 }

@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.plcoding.coroutinesmasterclass.sections.coroutine_basics.fetchData
 import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.ioDefaultDispatcher
 import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.queryDatabase
+import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.unconfinedDispatcher
 import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.withContextDemo
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
 import com.plcoding.coroutinesmasterclass.util.RotatingBoxScreen
@@ -28,6 +29,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        unconfinedDispatcher()
 
         setContent {
             CoroutinesMasterclassTheme {

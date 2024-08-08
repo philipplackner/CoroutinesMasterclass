@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import com.plcoding.coroutinesmasterclass.util.RotatingBoxScreen
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -33,10 +34,16 @@ fun PhotoPickerScreen(
         contract = ActivityResultContracts.PickVisualMedia()
     ) {
         scope.launch {
-            compressedBitmap = compressor.compressImage(
-                contentUri = it ?: return@launch,
-                compressionThreshold = 1024L
-            )
+            val job = launch {
+                compressedBitmap = compressor.compressImage(
+                    contentUri = it ?: return@launch,
+                    compressionThreshold = 1024L
+                )
+                println("Coroutine finished!")
+            }
+            delay(2000L)
+            job.cancel()
+            println("Coroutine cancelled!")
         }
     }
     LaunchedEffect(key1 = true) {

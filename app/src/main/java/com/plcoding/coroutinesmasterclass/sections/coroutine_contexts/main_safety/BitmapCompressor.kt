@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import kotlin.math.roundToInt
@@ -24,8 +26,12 @@ class BitmapCompressor(
                     inputStream.readBytes()
                 } ?: return@withContext null
 
+            ensureActive()
+
             withContext(Dispatchers.Default) {
                 val bitmap = BitmapFactory.decodeByteArray(inputBytes, 0, inputBytes.size)
+
+                ensureActive()
 
                 var outputBytes: ByteArray
                 var quality = 100
@@ -35,7 +41,9 @@ class BitmapCompressor(
                         outputBytes = outputStream.toByteArray()
                         quality -= (quality * 0.1).roundToInt()
                     }
-                } while(outputBytes.size > compressionThreshold && quality > 5)
+                } while (isActive && outputBytes.size > compressionThreshold && quality > 5)
+
+                ensureActive()
 
                 BitmapFactory.decodeByteArray(outputBytes, 0, outputBytes.size)
             }

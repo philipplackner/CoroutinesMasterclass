@@ -14,10 +14,11 @@ fun ioDefaultDispatcher() {
         repeat(100) {
             launch {
                 threads[Thread.currentThread().id] = Thread.currentThread().name
-                // Equivalent of a blocking network call
+
+                // Blocking network call
 //                Thread.sleep(1000L)
 
-                (1..100_000L).map {
+                (1..100_000).map {
                     it * it
                 }
             }

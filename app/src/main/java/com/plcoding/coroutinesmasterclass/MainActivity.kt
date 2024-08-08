@@ -29,10 +29,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        GlobalScope.launch {
-            withContextDemo()
-        }
-
         setContent {
             CoroutinesMasterclassTheme {
 

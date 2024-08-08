@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.plcoding.coroutinesmasterclass.sections.coroutine_basics.fetchData
 import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.ioDefaultDispatcher
 import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.queryDatabase
+import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.withContextDemo
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
 import com.plcoding.coroutinesmasterclass.util.RotatingBoxScreen
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -28,7 +29,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        ioDefaultDispatcher()
+        GlobalScope.launch {
+            withContextDemo()
+        }
 
         setContent {
             CoroutinesMasterclassTheme {

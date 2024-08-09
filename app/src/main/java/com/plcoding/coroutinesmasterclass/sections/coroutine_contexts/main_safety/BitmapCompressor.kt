@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import java.io.ByteArrayOutputStream
 import kotlin.math.roundToInt
 
@@ -26,12 +27,12 @@ class BitmapCompressor(
                     inputStream.readBytes()
                 } ?: return@withContext null
 
-            ensureActive()
+            yield()
 
             withContext(Dispatchers.Default) {
                 val bitmap = BitmapFactory.decodeByteArray(inputBytes, 0, inputBytes.size)
 
-                ensureActive()
+                yield()
 
                 var outputBytes: ByteArray
                 var quality = 100
@@ -43,7 +44,7 @@ class BitmapCompressor(
                     }
                 } while (isActive && outputBytes.size > compressionThreshold && quality > 5)
 
-                ensureActive()
+                yield()
 
                 BitmapFactory.decodeByteArray(outputBytes, 0, outputBytes.size)
             }

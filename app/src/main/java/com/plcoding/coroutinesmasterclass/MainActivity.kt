@@ -19,15 +19,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val fileManager = FileManager(applicationContext)
-        lifecycleScope.launch {
-            val job = launch {
-                fileManager.writeRecordsToFile()
-            }
-            delay(3000L)
-            job.cancel()
-        }
-
 //        val compressor = BitmapCompressor(applicationContext)
 
         setContent {

@@ -10,8 +10,12 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,21 +25,24 @@ class MainActivity : ComponentActivity() {
         val handler = CoroutineExceptionHandler { coroutineContext, throwable ->
             throwable.printStackTrace()
         }
-        lifecycleScope
-        val coroutineScope = CoroutineScope(
-            Dispatchers.Main.immediate + SupervisorJob()
-        )
-        coroutineScope.launch(handler) {
-            launch {
-                delay(1000L)
-                throw Exception("Oops!")
+        lifecycleScope.launch(handler) {
+            supervisorScope {
+                val result = async {
+                    delay(1000L)
+                    throw Exception("oops!")
+                }
+                launch {
+                    delay(2000L)
+                    println("Coroutine finished!")
+                }
+
+                try {
+                    result.await()
+                } catch(e: Exception) {
+                    ensureActive()
+                    e.printStackTrace()
+                }
             }
-            delay(2000L)
-            println("Coroutine1 finished!")
-        }
-        coroutineScope.launch(handler) {
-            delay(2000L)
-            println("Coroutine2 finished!")
         }
 
         setContent {

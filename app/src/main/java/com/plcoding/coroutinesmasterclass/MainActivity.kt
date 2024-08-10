@@ -5,13 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.lifecycleScope
-import com.plcoding.coroutinesmasterclass.sections.coroutine_cancellation.pollingTask
-import com.plcoding.coroutinesmasterclass.sections.coroutine_cancellation.trap3.FileManager
-import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.main_safety.BitmapCompressor
-import com.plcoding.coroutinesmasterclass.sections.coroutine_contexts.main_safety.PhotoPickerScreen
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
-import com.plcoding.coroutinesmasterclass.util.api.HttpClientFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -23,13 +21,21 @@ class MainActivity : ComponentActivity() {
         val handler = CoroutineExceptionHandler { coroutineContext, throwable ->
             throwable.printStackTrace()
         }
-        lifecycleScope.launch(handler) {
+        lifecycleScope
+        val coroutineScope = CoroutineScope(
+            Dispatchers.Main.immediate + SupervisorJob()
+        )
+        coroutineScope.launch(handler) {
             launch {
                 delay(1000L)
                 throw Exception("Oops!")
             }
             delay(2000L)
-            println("Coroutine finished!")
+            println("Coroutine1 finished!")
+        }
+        coroutineScope.launch(handler) {
+            delay(2000L)
+            println("Coroutine2 finished!")
         }
 
         setContent {

@@ -19,12 +19,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-//        val compressor = BitmapCompressor(applicationContext)
+        lifecycleScope.launch {
+            launch {
+                delay(1000L)
+                throw Exception("Oops!")
+            }
+            delay(2000L)
+            println("Coroutine finished!")
+        }
 
         setContent {
-            CoroutinesMasterclassTheme {
-//                PhotoPickerScreen(compressor = compressor)
-            }
+            CoroutinesMasterclassTheme {}
         }
     }
 }

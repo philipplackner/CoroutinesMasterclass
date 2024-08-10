@@ -22,10 +22,10 @@ suspend fun getProfile(api: HttpClient, userId: String) {
 
         val profileResponse = profileData.await()
         val postsResponse = profilePosts.await()
-        Profile(
-            username = TODO(),
-            followerCount = TODO(),
-            posts = TODO()
-        )
+//        Profile(
+//            username = TODO(),
+//            followerCount = TODO(),
+//            posts = TODO()
+//        )
     }
 }

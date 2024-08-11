@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
+import com.plcoding.coroutinesmasterclass.sections.coroutine_synchronization.synchronizationDemo
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -37,14 +38,7 @@ class MainActivity : ComponentActivity() {
             0
         )
 
-        lifecycleScope.launch {
-            val job = launch {
-                val location = getLocation()
-                println("Location: (${location.latitude}, ${location.longitude})")
-            }
-            delay(5L)
-            job.cancel()
-        }
+        synchronizationDemo()
 
         setContent {
             CoroutinesMasterclassTheme {}

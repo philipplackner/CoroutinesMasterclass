@@ -17,6 +17,7 @@ import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
 import com.plcoding.coroutinesmasterclass.sections.coroutine_synchronization.synchronizationDemo
 import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.flowDemo
+import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.sharedFlowDemo
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
             0
         )
 
-        flowDemo()
+        sharedFlowDemo()
 
         setContent {
             CoroutinesMasterclassTheme {}

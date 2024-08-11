@@ -5,9 +5,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 fun flowDemo() {
-    flow<Int> {
+    val flow = flow<Int> {
+        println("Collection started!")
         delay(1000L)
         emit(1)
         delay(2000L)
@@ -15,8 +17,15 @@ fun flowDemo() {
         delay(3000L)
         emit(3)
     }
-        .onEach {
-            println("Value emitted: $it")
+
+    flow.onEach {
+        println("Collector 1: $it")
+    }
+
+    GlobalScope.launch {
+        delay(5000L)
+        flow.onEach {
+            println("Collector 2: $it")
         }
-        .launchIn(GlobalScope)
+    }
 }

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -18,10 +19,9 @@ fun flowDemo() {
         emit(2)
         delay(3000L)
         emit(3)
-    }.stateIn(
+    }.shareIn(
         GlobalScope,
-        SharingStarted.WhileSubscribed(),
-        0
+        SharingStarted.Eagerly,
     )
 
     flow.onEach {

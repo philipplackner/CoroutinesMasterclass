@@ -19,11 +19,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.plcoding.coroutinesmasterclass.sections.coroutine_synchronization.synchronizationDemo
 import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.FlowViewModel
 import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.LoadingScreen
+import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.LocationObserver
 import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.flowDemo
 import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.sharedFlowDemo
 import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.stateFlowDemo
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.concurrent.Executors
@@ -44,13 +47,14 @@ class MainActivity : ComponentActivity() {
             0
         )
 
-        flowDemo()
-//        stateFlowDemo()
+        val observer = LocationObserver(applicationContext)
+
+        observer.observeLocation(1000L).onEach {
+            println("Tracked location: $it")
+        }.launchIn(lifecycleScope)
 
         setContent {
             CoroutinesMasterclassTheme {
-                val viewModel = viewModel<FlowViewModel>()
-                LoadingScreen(viewModel = viewModel)
             }
         }
     }

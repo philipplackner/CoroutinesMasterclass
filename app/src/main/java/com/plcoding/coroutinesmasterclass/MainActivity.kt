@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
             0
         )
 
+        flowDemo()
 //        stateFlowDemo()
 
         setContent {

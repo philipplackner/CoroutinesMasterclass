@@ -23,12 +23,18 @@ import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.LocationObs
 import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.flowDemo
 import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.sharedFlowDemo
 import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.stateFlowDemo
+import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.timer.TimerUi
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -47,14 +53,9 @@ class MainActivity : ComponentActivity() {
             0
         )
 
-        val observer = LocationObserver(applicationContext)
-
-        observer.observeLocation(1000L).onEach {
-            println("Tracked location: $it")
-        }.launchIn(lifecycleScope)
-
         setContent {
             CoroutinesMasterclassTheme {
+                TimerUi()
             }
         }
     }

@@ -12,8 +12,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.getSystemService
+import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.form_ui.FormUi
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.location_tracking.locationTracking
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.timer.TimerUi
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
@@ -35,11 +39,11 @@ class MainActivity : ComponentActivity() {
             0
         )
 
-        locationTracking()
-
         setContent {
             CoroutinesMasterclassTheme {
-//                TimerUi()
+                Scaffold {
+                    FormUi(modifier = Modifier.padding(it))
+                }
             }
         }
     }

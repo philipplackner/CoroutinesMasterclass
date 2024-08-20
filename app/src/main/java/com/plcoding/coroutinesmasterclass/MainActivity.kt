@@ -20,6 +20,7 @@ import androidx.core.content.getSystemService
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.form_ui.FormUi
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.location_tracking.locationTracking
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.timer.TimerUi
+import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.websocket.WebSocketUi
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -41,8 +42,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CoroutinesMasterclassTheme {
-                Scaffold {
-                    FormUi(modifier = Modifier.padding(it))
+                Scaffold { innerPadding ->
+                    WebSocketUi(
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }

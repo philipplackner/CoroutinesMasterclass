@@ -42,6 +42,7 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -58,5 +59,6 @@ ktor = [
     "ktor-client-content-negotiation",
     "ktor-client-core",
     "ktor-client-logging",
-    "ktor-serialization-kotlinx-json"
+    "ktor-serialization-kotlinx-json",
+    "ktor-client-websockets",
 ]

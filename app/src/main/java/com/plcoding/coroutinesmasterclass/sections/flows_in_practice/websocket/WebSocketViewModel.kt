@@ -3,7 +3,11 @@ package com.plcoding.coroutinesmasterclass.sections.flows_in_practice.websocket
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.coroutinesmasterclass.util.api.HttpClientFactory
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -21,6 +25,12 @@ class WebSocketViewModel: ViewModel() {
 
     val receivedLogs = client
         .listenToSocket("wss://echo.websocket.org/")
+        .flatMapMerge {
+            flow {
+                processLog()
+                emit(it)
+            }
+        }
         .runningFold(initial = emptyList<WebSocketLog>()) { logs, newLog ->
             val formattedTime = DateTimeFormatter
                 .ofPattern("dd-MM-yyyy, hh:mm:ss")
@@ -41,5 +51,9 @@ class WebSocketViewModel: ViewModel() {
         viewModelScope.launch {
             client.sendMessage(text)
         }
+    }
+
+    private suspend fun processLog() {
+        delay(3000L)
     }
 }

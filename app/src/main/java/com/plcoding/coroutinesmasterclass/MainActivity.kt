@@ -14,28 +14,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.getSystemService
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.plcoding.coroutinesmasterclass.sections.coroutine_synchronization.synchronizationDemo
-import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.FlowViewModel
-import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.LoadingScreen
-import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.LocationObserver
-import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.flowDemo
-import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.sharedFlowDemo
-import com.plcoding.coroutinesmasterclass.sections.flow_fundamentals.stateFlowDemo
+import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.location_tracking.locationTracking
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.timer.TimerUi
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
-import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -53,9 +35,11 @@ class MainActivity : ComponentActivity() {
             0
         )
 
+        locationTracking()
+
         setContent {
             CoroutinesMasterclassTheme {
-                TimerUi()
+//                TimerUi()
             }
         }
     }

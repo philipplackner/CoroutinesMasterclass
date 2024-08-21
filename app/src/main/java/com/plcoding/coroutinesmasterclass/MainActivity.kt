@@ -31,34 +31,34 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-//        val outerJob = lifecycleScope.launch {
-//            val innerJob = launch {
-//                launch {
-//                    delay(3000L)
-//                }
-//                launch {
-//                    delay(2000L)
-//                }
+        val job = lifecycleScope.launch {
+//            val innerJob1 = launch {
+//                delay(2000L)
+//                println("Inner job 1 finished")
+//            }
+//            val innerJob2 = launch {
 //                delay(1000L)
+//                println("Inner job 2 finished")
 //            }
-//            val timeMillis = measureTimeMillis {
-//                innerJob.join()
-//            }
-//            println("Inner job took $timeMillis ms.")
-//        }
 
-        lifecycleScope.launch {
-            val profileJson = async {
-                getProfile()
+            val profileDeferred = async {
+                println("Fetching profile data...")
+                delay(2000L)
+                "profile"
             }
-            val postsJson = async {
-                getPosts()
+            val postsDeferred = async {
+                println("Fetching profile posts...")
+                delay(3000L)
+                "posts"
             }
 
             val timeMillis = measureTimeMillis {
-                println("Profile: ${profileJson.await()}, posts: ${postsJson.await()}")
+                val posts = postsDeferred.await()
+                val profile = profileDeferred.await()
+
+                println("Profile loaded: $profile, $posts")
             }
-            println("Fetching data took $timeMillis ms.")
+            println("Jobs took $timeMillis milliseconds.")
         }
 
         setContent {
@@ -66,14 +66,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-suspend fun getProfile(): String {
-    delay(1000L)
-    return "{profile: {}}"
-}
-
-suspend fun getPosts(): String {
-    delay(1500L)
-    return "{posts: []}"
 }

@@ -26,10 +26,7 @@ fun CounterScreen(
             value++
         }
     }
-    LaunchedEffect(key1 = counter) {
-        delay(1000L)
-        println("LaunchedEffect finished!")
-    }
+
     Box(
         modifier = Modifier
             .fillMaxSize(),

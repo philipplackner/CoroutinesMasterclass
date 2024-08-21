@@ -27,7 +27,7 @@ fun ProfileScreen(
         SnackbarHostState()
     }
     val scope = rememberCoroutineScope()
-    var isSnackbarShowing by remember {
+    var isShowingSnackbar by remember {
         mutableStateOf(false)
     }
     Scaffold(
@@ -43,18 +43,18 @@ fun ProfileScreen(
         ) {
             Button(onClick = {
                 scope.launch {
-                    isSnackbarShowing = true
+                    isShowingSnackbar = true
                     snackbarState.showSnackbar(
                         message = "Hello world!"
                     )
-                    isSnackbarShowing = false
+                    isShowingSnackbar = false
                 }
             }) {
                 Text(
-                    text = if(isSnackbarShowing) {
-                        "Snackbar is showing"
+                    text = if(isShowingSnackbar) {
+                        "Snackbar showing!"
                     } else {
-                        "Snackbar is not showing"
+                        "Snackbar not showing!"
                     }
                 )
             }

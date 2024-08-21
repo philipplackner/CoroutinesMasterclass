@@ -2,6 +2,7 @@
 
 package com.plcoding.coroutinesmasterclass.sections.flows_in_practice.form_ui
 
+import app.cash.turbine.test
 import assertk.assertThat
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
@@ -39,7 +40,7 @@ class FormViewModelTest {
     }
 
     @Test
-    fun testRegisterLoading() = runTest(testDispatchers.testDispatcher) {
+    fun testRegisterLoading_withCoroutine() = runTest(testDispatchers.testDispatcher) {
         assertThat(viewModel.isLoading.value).isFalse()
 
         viewModel.register()
@@ -51,5 +52,33 @@ class FormViewModelTest {
         advanceUntilIdle()
 
         assertThat(viewModel.isLoading.value).isFalse()
+    }
+
+    @Test
+    fun testRegisterLoading_withFlow() = runTest(testDispatchers.testDispatcher) {
+        viewModel.isLoading.test {
+            val initialEmission = awaitItem()
+            assertThat(initialEmission).isFalse()
+
+            viewModel.register()
+
+            val loadingEmission = awaitItem()
+            assertThat(loadingEmission).isTrue()
+
+            val notLoadingEmission = awaitItem()
+            assertThat(notLoadingEmission).isFalse()
+        }
+    }
+
+    @Test
+    fun testCanRegister() = runTest(testDispatchers.testDispatcher) {
+        viewModel.canRegister.test {
+            viewModel.onEmailChange("test@test.com")
+            viewModel.onPasswordChange("test123456")
+            assertThat(awaitItem()).isFalse()
+
+            viewModel.onPasswordChange("test123456*")
+            assertThat(awaitItem()).isTrue()
+        }
     }
 }

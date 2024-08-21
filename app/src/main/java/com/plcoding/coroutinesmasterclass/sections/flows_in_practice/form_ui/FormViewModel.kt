@@ -3,6 +3,9 @@ package com.plcoding.coroutinesmasterclass.sections.flows_in_practice.form_ui
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.plcoding.coroutinesmasterclass.sections.testing.DispatcherProvider
+import com.plcoding.coroutinesmasterclass.sections.testing.StandardDispatchers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -11,8 +14,11 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 
-class FormViewModel : ViewModel() {
+class FormViewModel(
+    private val dispatchers: DispatcherProvider = StandardDispatchers
+) : ViewModel() {
 
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
@@ -34,13 +40,13 @@ class FormViewModel : ViewModel() {
 
             isValidPassword && isValidEmail
         }.stateIn(
-            viewModelScope,
+            viewModelScope + dispatchers.mainImmediate,
             SharingStarted.WhileSubscribed(5000L),
             false
         )
 
     fun register() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.io) {
             _isLoading.value = true
             delay(3000L) // Registering...
             _isLoading.value = false

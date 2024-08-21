@@ -3,12 +3,14 @@ package com.plcoding.coroutinesmasterclass.sections.flows_in_practice.form_ui
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class FormViewModel : ViewModel() {
 
@@ -17,6 +19,9 @@ class FormViewModel : ViewModel() {
 
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
 
     val canRegister = email
         .debounce(500L)
@@ -33,6 +38,14 @@ class FormViewModel : ViewModel() {
             SharingStarted.WhileSubscribed(5000L),
             false
         )
+
+    fun register() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            delay(3000L) // Registering...
+            _isLoading.value = false
+        }
+    }
 
     fun onEmailChange(email: String) {
         _email.value = email

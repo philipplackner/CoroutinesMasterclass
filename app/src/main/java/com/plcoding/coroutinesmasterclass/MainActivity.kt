@@ -1,6 +1,7 @@
 package com.plcoding.coroutinesmasterclass
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -25,33 +26,24 @@ import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
-    private val customLifecycleScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+    private val customLifecycleScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-//        GlobalScope.launch {
-//            val context = this@MainActivity
-//            delay(10000L)
-//            println("Context: $context")
-//        }
-
-//        lifecycleScope.launch {
-//            val context = this@MainActivity
-//            delay(10000L)
-//            println("Context: $context")
-//        }
-
         customLifecycleScope.launch {
-            val context = this@MainActivity
-            delay(10000L)
-            println("Context: $context")
+            delay(5000L)
+            println("Custom Lifecycle Scope coroutine finished")
+        }
+
+        lifecycleScope.launch {
+            delay(5000L)
+            println("Lifecycle Scope coroutine finished")
         }
 
         setContent {
             CoroutinesMasterclassTheme {
-//                RotatingBoxScreen()
             }
         }
     }

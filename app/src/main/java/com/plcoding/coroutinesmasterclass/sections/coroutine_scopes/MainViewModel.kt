@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
 
-    fun doSomething() {
+    init {
         viewModelScope.launch {
 
         }

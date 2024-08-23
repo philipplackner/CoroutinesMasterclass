@@ -27,6 +27,7 @@ class WebSocketClient(
 
     fun listenToSocket(url: String): Flow<String> {
         return callbackFlow {
+            println("Attempting to connect to socket...")
             session = httpClient.webSocketSession(
                 urlString = url
             )

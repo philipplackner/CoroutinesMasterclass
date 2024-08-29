@@ -14,15 +14,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.getSystemService
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.backpressure.backpressureDemo
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.form_ui.FormUi
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.location_tracking.locationTracking
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.task.flatMapDemo
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.timer.TimerUi
 import com.plcoding.coroutinesmasterclass.sections.flows_in_practice.websocket.WebSocketUi
+import com.plcoding.coroutinesmasterclass.sections.testing.homework.assignment2.SearchScreen
+import com.plcoding.coroutinesmasterclass.sections.testing.homework.assignment2.SearchViewModel
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
 import com.plcoding.coroutinesmasterclass.util.db.TaskDao
 import kotlinx.coroutines.flow.flatMapLatest
@@ -36,25 +42,16 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ),
-            0
-        )
 
-        backpressureDemo()
 
         setContent {
             CoroutinesMasterclassTheme {
-//                Scaffold { innerPadding ->
-//                    WebSocketUi(
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
+                val viewModel: SearchViewModel = viewModel()
+                val state by viewModel.state.collectAsStateWithLifecycle()
+                SearchScreen(
+                    state = state,
+                    onSearchTextChange = viewModel::onSearchQueryChange
+                )
             }
         }
     }

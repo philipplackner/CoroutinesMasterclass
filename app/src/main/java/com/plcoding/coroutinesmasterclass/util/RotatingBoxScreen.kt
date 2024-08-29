@@ -28,8 +28,7 @@ fun RotatingBoxScreen(modifier: Modifier = Modifier) {
         label = ""
     )
     Box(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         Box(

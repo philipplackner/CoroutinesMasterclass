@@ -6,16 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.lifecycleScope
 import com.plcoding.coroutinesmasterclass.ui.theme.CoroutinesMasterclassTheme
+import com.plcoding.coroutinesmasterclass.util.EmailService
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,25 +18,25 @@ class MainActivity : ComponentActivity() {
         val handler = CoroutineExceptionHandler { coroutineContext, throwable ->
             throwable.printStackTrace()
         }
-        lifecycleScope.launch(handler) {
-            supervisorScope {
-                val result = async {
-                    delay(1000L)
-                    throw Exception("oops!")
-                }
-                launch {
-                    delay(2000L)
-                    println("Coroutine finished!")
-                }
 
-                try {
-                    result.await()
-                } catch(e: Exception) {
-                    ensureActive()
-                    e.printStackTrace()
-                }
-            }
-        }
+       lifecycleScope.launch(handler) {
+           EmailService.addToMailingList(
+               listOf(
+                   "dancing.dave@email.com",
+                   "caffeinated.coder@email.com",
+                   "bookworm.betty@email.com",
+                   "gardening.guru@email.com",
+                   "sleepy.slothemail.com",
+                   "hungry.hippo@email.com",
+                   "clueless.cathy@email.com",
+                   "techy.tom@email.com",
+                   "musical.maryemail.com",
+                   "adventurous.alice@email.com"
+               )
+           )
+           EmailService.sendNewsletter()
+           println("Done sending emails")
+       }
 
         setContent {
             CoroutinesMasterclassTheme {}

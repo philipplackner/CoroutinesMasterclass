@@ -21,6 +21,7 @@ import com.plcoding.coroutinesmasterclass.util.RotatingBoxScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun PhotoPickerScreen(
@@ -47,9 +48,8 @@ fun PhotoPickerScreen(
         }
     }
     LaunchedEffect(key1 = true) {
-        photoPicker.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-        )
+        withContext(Dispatchers.IO) {
+        }
     }
     LaunchedEffect(key1 = compressedBitmap) {
         compressedBitmap?.let {
